@@ -5,7 +5,7 @@ const orderSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: "User",
+      ref: "user",
     },
     orderItems: [
       {
@@ -21,21 +21,39 @@ const orderSchema = new mongoose.Schema(
           type: String,
           required: true,
         },
+        size: {
+          type: String,
+          required: true,
+        },
+        userCustomizeAdd: [
+          {
+            name: {
+              type: String,
+            },
+          },
+        ],
+        userCustomizeSub: [
+          {
+            name: {
+              type: String,
+            },
+          },
+        ],
+        allergy: {
+          type: String,
+          default: "none",
+        },
         price: {
           type: Number,
           required: true,
         },
-        product: {
-          type: mongoose.Schema.Types.ObjectId,
-          required: true,
-          ref: "Product",
-        },
       },
     ],
-    orderStoreLocation: {
+
+    store: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: "Store",
+      ref: "store",
     },
     paymentMethod: {
       type: String,
@@ -60,9 +78,8 @@ const orderSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    totalPrice: {
-      type: Number,
-      required: true,
+    orderAt: {
+      type: Date,
     },
     paidAt: {
       type: Date,
