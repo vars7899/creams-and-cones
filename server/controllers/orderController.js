@@ -20,49 +20,21 @@ export const getOrders = asyncHandler(async (req, res) => {
 // @route   GET /api/orders/:storeId
 // @access  private
 export const getOrderByStoreId = asyncHandler(async (req, res) => {
-  const orders = await Order.findOne(req.params.storeId).populate("store");
-  orders
-    ? res.json(orders)
-    : res.status(200).json({
-        message: "No order found",
-        numOrders: 0,
-      });
+  const store = await Store.findById(req.params.storeId);
+  if (store) {
+    const orders = await Order.find({ store }).populate("store");
+    orders
+      ? res.json(orders)
+      : res.status(200).json({
+          message: "No order found",
+          numOrders: 0,
+        });
+  }
 });
 
 // @desc    create a new order
 // @route   POST /api/orders/create
 // @access  private
-
-// {
-//     "user": "654654651351465465463",
-//     "order_at": "2020/01/02,05:19",
-//     "order_location": {
-//       "country": "canada",
-//       "city": "vancouver",
-//       "address": "567 Davie street"
-//     },
-//     "order": [
-//       {
-//         "drink_id": 5,
-//         "drink_name": "blue berry acai smothiee",
-//         "drink_qty": 2,
-//         "drink_size": "large",
-//         "drink_alergy": "peanut allergy",
-//         "drink_customize_add": [
-//           "Banana", "blueberry","cashew butter"
-//           ],
-//           "drink_customize_sub": [
-//             "peanut butter"
-//           ]
-//       }
-//       ],
-//       "payment_details": {
-//         "payment_type": "in-store",
-//         "payment_success": "false",
-//         "payment_paid_at": ""
-//       }
-//   }
-
 export const createOrder = asyncHandler(async (req, res) => {
   // grab the store from params
   const storeId = req.params.storeId;

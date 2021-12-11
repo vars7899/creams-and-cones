@@ -57,66 +57,67 @@ export const createStore = asyncHandler(async (req, res) => {
   } = req.body;
 
   const storeNameAlreadyExist = await Store.findOne({ storeName });
-  if (storeNameAlreadyExist) {
+  if (storeNameAlreadyExist && storeNameAlreadyExist.name) {
     res.json({
       error: "store name already taken",
       success: false,
     });
-  }
-  const newStore = await Store.create({
-    store_name: storeName,
-    store_location_lat: storeLocationLat,
-    store_location_lng: storeLocationLng,
-    store_address: storeAddress,
-    store_city: storeCity,
-    store_postal_code: storePostalCode,
-    store_country: storeCountry,
-    store_timing: {
-      monday_open: monOpen,
-      monday_close: monClose,
-      tuesday_open: tueOpen,
-      tuesday_close: tueClose,
-      wednesday_open: wedOpen,
-      wednesday_close: wedClose,
-      thursday_open: thuOpen,
-      thursday_close: thuClose,
-      friday_open: friOpen,
-      friday_close: friClose,
-      saturday_open: satOpen,
-      saturday_close: satClose,
-      sunday_open: sunOpen,
-      sunday_close: sunClose,
-    },
-    store_phone: storePhone,
-    store_nearby: storeNearby,
-  });
-  if (newStore) {
-    res.json({
-      _id: newStore._id,
-      store_name: newStore.store_name,
-      store_location_lat: newStore.store_location_lat,
-      store_location_lng: newStore.store_location_lng,
-      store_address: newStore.store_address,
-      store_city: newStore.store_city,
-      store_postal_code: newStore.store_postal_code,
-      store_country: newStore.store_country,
-      monday_open: newStore.store_timing.monday_open,
-      monday_close: newStore.store_timing.monday_close,
-      tuesday_open: newStore.store_timing.tuesday_open,
-      tuesday_close: newStore.store_timing.tuesday_close,
-      wednesday_open: newStore.store_timing.wednesday_open,
-      wednesday_close: newStore.store_timing.wednesday_close,
-      thursday_open: newStore.store_timing.thursday_open,
-      thursday_close: newStore.store_timing.thursday_close,
-      friday_open: newStore.store_timing.friday_open,
-      friday_close: newStore.store_timing.friday_close,
-      saturday_open: newStore.store_timing.saturday_open,
-      saturday_close: newStore.store_timing.saturday_close,
-      sunday_open: newStore.store_timing.sunday_open,
-      sunday_close: newStore.store_timing.sunday_close,
-      store_phone: newStore.store_timing.store_phone,
-      store_nearby: newStore.store_nearby,
+  } else {
+    const newStore = await Store.create({
+      store_name: storeName,
+      store_location_lat: storeLocationLat,
+      store_location_lng: storeLocationLng,
+      store_address: storeAddress,
+      store_city: storeCity,
+      store_postal_code: storePostalCode,
+      store_country: storeCountry,
+      store_timing: {
+        monday_open: monOpen,
+        monday_close: monClose,
+        tuesday_open: tueOpen,
+        tuesday_close: tueClose,
+        wednesday_open: wedOpen,
+        wednesday_close: wedClose,
+        thursday_open: thuOpen,
+        thursday_close: thuClose,
+        friday_open: friOpen,
+        friday_close: friClose,
+        saturday_open: satOpen,
+        saturday_close: satClose,
+        sunday_open: sunOpen,
+        sunday_close: sunClose,
+      },
+      store_phone: storePhone,
+      store_nearby: storeNearby,
     });
+    if (newStore) {
+      res.json({
+        _id: newStore._id,
+        store_name: newStore.store_name,
+        store_location_lat: newStore.store_location_lat,
+        store_location_lng: newStore.store_location_lng,
+        store_address: newStore.store_address,
+        store_city: newStore.store_city,
+        store_postal_code: newStore.store_postal_code,
+        store_country: newStore.store_country,
+        monday_open: newStore.store_timing.monday_open,
+        monday_close: newStore.store_timing.monday_close,
+        tuesday_open: newStore.store_timing.tuesday_open,
+        tuesday_close: newStore.store_timing.tuesday_close,
+        wednesday_open: newStore.store_timing.wednesday_open,
+        wednesday_close: newStore.store_timing.wednesday_close,
+        thursday_open: newStore.store_timing.thursday_open,
+        thursday_close: newStore.store_timing.thursday_close,
+        friday_open: newStore.store_timing.friday_open,
+        friday_close: newStore.store_timing.friday_close,
+        saturday_open: newStore.store_timing.saturday_open,
+        saturday_close: newStore.store_timing.saturday_close,
+        sunday_open: newStore.store_timing.sunday_open,
+        sunday_close: newStore.store_timing.sunday_close,
+        store_phone: newStore.store_timing.store_phone,
+        store_nearby: newStore.store_nearby,
+      });
+    }
   }
 });
 
